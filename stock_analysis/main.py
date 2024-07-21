@@ -12,18 +12,21 @@ class FinancialCrew:
     self.company = company
 
   def run(self):
-    agents = StockAnalysisAgents()
-    tasks = StockAnalysisTasks()
+    agents = StockAnalysisAgents() # 代理
+    tasks = StockAnalysisTasks() # 任务
 
+    # 代理
     research_analyst_agent = agents.research_analyst()
     financial_analyst_agent = agents.financial_analyst()
     investment_advisor_agent = agents.investment_advisor()
 
-    research_task = tasks.research(research_analyst_agent, self.company)
-    financial_task = tasks.financial_analysis(financial_analyst_agent)
-    filings_task = tasks.filings_analysis(financial_analyst_agent)
-    recommend_task = tasks.recommend(investment_advisor_agent)
+    # 任务
+    research_task = tasks.research(research_analyst_agent, self.company) # 研究人员
+    financial_task = tasks.financial_analysis(financial_analyst_agent) # 财务分析师
+    filings_task = tasks.filings_analysis(financial_analyst_agent) # 文件审查员
+    recommend_task = tasks.recommend(investment_advisor_agent) # 投资建议
 
+    # 实例化你的团队
     crew = Crew(
       agents=[
         research_analyst_agent,
@@ -39,20 +42,21 @@ class FinancialCrew:
       verbose=True
     )
 
+    # 开始执行任务
     result = crew.kickoff()
     return result
 
 if __name__ == "__main__":
-  print("## Welcome to Financial Analysis Crew")
+  print("## 欢迎使用基于AI的财务分析团队")
   print('-------------------------------')
   company = input(
     dedent("""
-      What is the company you want to analyze?
+     你想分析的公司是什么？ 
     """))
   
   financial_crew = FinancialCrew(company)
   result = financial_crew.run()
   print("\n\n########################")
-  print("## Here is the Report")
+  print("## 以下是报告:")
   print("########################\n")
   print(result)
