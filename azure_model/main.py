@@ -7,6 +7,7 @@ from langchain_openai import AzureChatOpenAI
 
 load_dotenv()
 
+# 大模型配置
 default_llm = AzureChatOpenAI(
     openai_api_version=os.environ.get("AZURE_OPENAI_VERSION", "2023-07-01-preview"),
     azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt35"),
@@ -15,28 +16,28 @@ default_llm = AzureChatOpenAI(
 )
 
 
-# Create a researcher agent
+# 创建研究员代理 
 researcher = Agent(
-  role='Senior Researcher',
-  goal='Discover groundbreaking technologies',
+  role='高级研究员',
+  goal='探索突破性技术',
   verbose=True,
   llm=default_llm,
-  backstory='A curious mind fascinated by cutting-edge innovation and the potential to change the world, you know everything about tech.'
+  backstory='你充满好奇心，着迷于前沿创新和改变世界的潜力，你对科技了如指掌。'
 )
 
-# Task for the researcher
+# 研究人员的任务 
 research_task = Task(
-  description='Identify the next big trend in AI',
-  agent=researcher  # Assigning the task to the researcher
+  description='确定人工智能的下一个大趋势',
+  agent=researcher  # 将任务分配给研究人员 
 )
 
 
-# Instantiate your crew
+# 实例化你的团队 
 tech_crew = Crew(
   agents=[researcher],
   tasks=[research_task],
-  process=Process.sequential  # Tasks will be executed one after the other
+  process=Process.sequential  # 任务将依次执行 
 )
 
-# Begin the task execution
+# 开始执行任务 
 tech_crew.kickoff()
